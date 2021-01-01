@@ -117,6 +117,19 @@ initialize_server_properties
 initialize_database_config
 initialize_ops
 
+for init in /docker-entrypoint.d/*
+do
+    if [ -x "$init" ]
+    then
+        echo "Executing entrypoint script: $init"
+        if ! $init
+        then
+            echo "Execution failed!"
+            exit 1
+        fi
+    fi
+done
+
 if [ ! -f "eula.txt" ]; then
     echo "eula=true" > ./eula.txt
 fi
@@ -124,4 +137,4 @@ fi
 echo "-------------------------------"
 echo "start the server..."
 
-exec java ${JAVA_VM_ARGS} -jar "${SPONGE_JAR}"
+exec java ${JAVA_VM_ARGS} -jar /sponge.jar

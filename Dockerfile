@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk8:alpine-jre
 
-ARG SPONGE_VERSION="1.16.4-8.0.0"
+ARG SPONGE_VERSION="1.16.4-8.0.0-*"
 # "rc" or "release"
 ARG SPONGE_TYPE="rc"
 ENV MINECRAFT_DIR="/minecraft"
@@ -17,6 +17,8 @@ ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 RUN apk update \
  && apk add --no-cache curl bash
 
+RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
+
 USER "minecraft:minecraft"
 
 RUN mkdir -p "${MINECRAFT_MODS_DIR}" \
@@ -26,17 +28,14 @@ RUN mkdir -p "${MINECRAFT_MODS_DIR}" \
              "${MINECRAFT_ROOT_STUFF_DIR}" && \
     chmod -R o+rwx "${MINECRAFT_DIR}"
 
-COPY scripts/builder/download_sponge.sh ${SCRIPT_DIR}/download_sponge.sh
-RUN bash ${SCRIPT_DIR}/download_sponge.sh
-
 WORKDIR ${MINECRAFT_DIR}
-COPY scripts/runtime/entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 25565/tcp 25575/tcp
 
 VOLUME ["${MINECRAFT_MODS_DIR}", "${MINECRAFT_CONFIG_DIR}", "${MINECRAFT_WORLD_DIR}", "${MINECRAFT_LOGS_DIR}", "${MINECRAFT_ROOT_STUFF_DIR}"]
-#
+
 # This environment variables can be used to control the server.
 ENV JAVA_VM_ARGS=""
 
@@ -96,3 +95,4 @@ ENV	ALLOW_FLIGHT=false \
     USE_NATIVE_TRANSPORT=true \
     VIEW_DISTANCE=10 \
     WHITE_LIST=false
+
