@@ -137,4 +137,4 @@ fi
 echo "-------------------------------"
 echo "start the server..."
 
-exec java ${JAVA_VM_ARGS} -jar /sponge.jar
+exec java -Dlog4j.configurationFile=/log4j2.xml ${JAVA_VM_ARGS} -jar /sponge.jar
