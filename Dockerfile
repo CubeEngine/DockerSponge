@@ -21,20 +21,13 @@ RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest
 
 USER "minecraft:minecraft"
 
-RUN mkdir -p "${MINECRAFT_MODS_DIR}" \
-             "${MINECRAFT_CONFIG_DIR}" \
-             "${MINECRAFT_WORLD_DIR}" \
-             "${MINECRAFT_LOGS_DIR}" \
-             "${MINECRAFT_ROOT_STUFF_DIR}" && \
-    chmod -R o+rwx "${MINECRAFT_DIR}"
-
 WORKDIR ${MINECRAFT_DIR}
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 25565/tcp 25575/tcp
 
-VOLUME ["${MINECRAFT_MODS_DIR}", "${MINECRAFT_CONFIG_DIR}", "${MINECRAFT_WORLD_DIR}", "${MINECRAFT_LOGS_DIR}", "${MINECRAFT_ROOT_STUFF_DIR}"]
+VOLUME ["${MINECRAFT_DIR}"]
 
 # This environment variables can be used to control the server.
 ENV JAVA_VM_ARGS=""
