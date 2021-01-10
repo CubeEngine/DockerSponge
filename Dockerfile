@@ -20,6 +20,7 @@ RUN apk update \
 RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
 
 COPY log4j2.xml /
+COPY launcher.conf /
 
 USER "minecraft:minecraft"
 
