@@ -1,0 +1,6 @@
+args="${MINECRAFT_ARGS}"
+auto-download-libraries=true
+check-library-hashes=true
+jvm-args="-Dlog4j.configurationFile=log4j2.xml ${JVM_ARGS}"
+jvm-directory="${JAVA_HOME}"
+libraries-directory="${MINECRAFT_DIR}/libraries"

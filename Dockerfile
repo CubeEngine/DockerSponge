@@ -14,13 +14,15 @@ ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 	MINECRAFT_LOGS_DIR="${MINECRAFT_DIR}/logs" \
 	MINECRAFT_ROOT_STUFF_DIR="${MINECRAFT_DIR}/root"
 
-RUN apk update \
- && apk add --no-cache curl bash
+# bash: easy scripting
+# curl: sponge download and nice to have
+# gettext: envsubst
+RUN apk add --update --no-cache curl bash gettext
 
 RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
 
 COPY log4j2.xml /
-COPY launcher.conf /
+COPY launcher.conf.template /
 
 USER "minecraft:minecraft"
 
@@ -28,12 +30,14 @@ WORKDIR ${MINECRAFT_DIR}
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
+CMD ["--nogui"]
+
 EXPOSE 25565/tcp 25575/tcp
 
 VOLUME ["${MINECRAFT_DIR}"]
 
-# This environment variables can be used to control the server.
-ENV JAVA_VM_ARGS=""
+ENV JVM_ARGS=""
+ENV LAUNCHER_JVM_ARGS=""
 
 ENV DB_CONNECTION_STRING="jdbc:postgresql://user:password@localhost:5432/minecraft" \
     DB_ALIAS="database"

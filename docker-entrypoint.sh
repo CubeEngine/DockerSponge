@@ -113,9 +113,18 @@ initialize_ops() {
   fi
 }
 
+generate_launcher_config() {
+
+    export MINECRAFT_ARGS="$@"
+    envsubst < /launcher.conf.template > "${MINECRAFT_DIR}/launcher.conf"
+
+}
+
 initialize_server_properties
 initialize_database_config
 initialize_ops
+generate_launcher_config "$@"
+
 
 for init in /docker-entrypoint.d/*
 do
@@ -137,4 +146,4 @@ fi
 echo "-------------------------------"
 echo "start the server..."
 
-exec java -Dlog4j.configurationFile=/log4j2.xml ${JAVA_VM_ARGS} -jar /sponge.jar
+exec java -Dlog4j.configurationFile=/log4j2.xml $LAUNCHER_JVM_ARGS -jar /sponge.jar --installerDir "$MINECRAFT_DIR"
