@@ -113,17 +113,22 @@ initialize_ops() {
   fi
 }
 
-generate_launcher_config() {
+initialize_launcher_config() {
 
     export MINECRAFT_ARGS="$@"
     envsubst < /launcher.conf.template > "${MINECRAFT_DIR}/launcher.conf"
 
 }
 
+initialize_eula() {
+    echo "eula=${EULA}" > "${MINECRAFT_DIR}/eula.txt"
+}
+
 initialize_server_properties
 initialize_database_config
 initialize_ops
-generate_launcher_config "$@"
+initialize_launcher_config "$@"
+initialize_eula
 
 
 for init in /docker-entrypoint.d/*
@@ -138,10 +143,6 @@ do
         fi
     fi
 done
-
-if [ ! -f "eula.txt" ]; then
-    echo "eula=true" > ./eula.txt
-fi
 
 echo "-------------------------------"
 echo "start the server..."
