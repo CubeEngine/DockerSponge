@@ -2,7 +2,7 @@
 <Configuration status="WARN" packages="com.mojang.util" shutdownHook="disable">
     <Appenders>
         <Console name="SysOut" target="SYSTEM_OUT">
-            <PatternLayout pattern="%highlight{[%d{HH:mm:ss}] [%t/%level] [%c{1.3}/%markerSimpleName]: %msg%n}"/>
+            <PatternLayout pattern="%d{ISO8601} %level [%t] [%c{1.3}]: %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
