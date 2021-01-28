@@ -8,6 +8,9 @@
     <Loggers>
         <Root level="all">
             <AppenderRef ref="SysOut" level="INFO"/>
+            <filters>
+                <MarkerFilter marker="CLASSDUMP" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </filters>
         </Root>
     </Loggers>
 </Configuration>
