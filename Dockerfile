@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk15:alpine-jre
 
-ARG SPONGE_VERSION="1.16.4-8.0.0-*"
+ARG SPONGE_VERSION="1.16.5-8.0.0-*"
 # "rc" or "release"
 ARG SPONGE_TYPE="rc"
 ENV MINECRAFT_DIR="/minecraft"
