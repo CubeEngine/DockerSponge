@@ -1,4 +1,6 @@
-FROM adoptopenjdk/openjdk15:alpine-jre
+ARG JAVA_VERSION=8
+
+FROM adoptopenjdk/openjdk${JAVA_VERSION}:alpine-jre
 
 ARG SPONGE_VERSION="1.16.5-8.0.0-*"
 # "rc" or "release"
