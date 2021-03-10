@@ -1,4 +1,4 @@
-args=
+args=""
 auto-download-libraries=true
 check-library-hashes=true
 libraries-directory="${MINECRAFT_DIR}/libraries"
