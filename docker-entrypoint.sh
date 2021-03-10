@@ -114,10 +114,7 @@ initialize_ops() {
 }
 
 initialize_launcher_config() {
-
-    export MINECRAFT_ARGS="$@"
     envsubst < /launcher.conf.template > "${MINECRAFT_DIR}/launcher.conf"
-
 }
 
 initialize_eula() {
@@ -127,7 +124,7 @@ initialize_eula() {
 initialize_server_properties
 initialize_database_config
 initialize_ops
-initialize_launcher_config "$@"
+initialize_launcher_config
 initialize_eula
 
 
@@ -147,4 +144,4 @@ done
 echo "-------------------------------"
 echo "start the server..."
 
-exec java -Dlog4j.configurationFile=/log4j2.xml $LAUNCHER_JVM_ARGS -jar /sponge.jar --installerDir "$MINECRAFT_DIR"
+exec java -Dlog4j.configurationFile=/log4j2.xml $JVM_ARGS -jar /sponge.jar --installerDir "$MINECRAFT_DIR" "$@"
