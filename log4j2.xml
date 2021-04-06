@@ -7,7 +7,7 @@
     </Appenders>
     <Loggers>
         <Logger name="cpw.mods.modlauncher.ClassTransformer" level="OFF"/>
-        <Root level="all">
+        <Root level="info">
             <AppenderRef ref="SysOut" level="INFO"/>
         </Root>
     </Loggers>
