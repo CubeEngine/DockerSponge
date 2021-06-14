@@ -4,6 +4,9 @@ name: Build Image
 
 # Controls when the action will run. 
 on: 
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 * * *'
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -16,14 +19,33 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: actions/cache@v2
+        with:
+          path: last_sponge_build
+          key: api-8-build
+      - name: Fetch Last Sponge Build
+        id: sponge-check
+        run: |
+          curl "https://api.github.com/repos/SpongePowered/Sponge/actions/workflows/deploy.yaml/runs?per_page=1&status=completed&branch=api-8" | jq '.workflow_runs [0] .run_number' > latest_sponge_build
+          if cmp -s last_sponge_build latest_sponge_build; then
+            ::set-output name=modified::false
+            echo No New Sponge Build $(cat last_sponge_build)! Skipping
+          else  
+            ::set-output name=modified::true
+            echo New Sponge Build: $(cat last_sponge_build) to $(cat latest_sponge_build)
+            mv -f last_sponge_build latest_sponge_build
+          fi
       - name: Set up Docker Buildx
+        if: steps.sponge-check.outputs.modified == 'true'
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
+        if: steps.sponge-check.outputs.modified == 'true'
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build and push
+        if: steps.sponge-check.outputs.modified == 'true'
         id: docker_build
         uses: docker/build-push-action@v2
         with:
