@@ -32,8 +32,8 @@ jobs:
             echo No New Sponge Build $(cat last_sponge_build)! Skipping
           else  
             echo ::set-output name=modified::true
-            echo New Sponge Build: $(cat last_sponge_build) to $(cat latest_sponge_build)
-            mv -f last_sponge_build latest_sponge_build
+            echo New Sponge Build: $(cat -s last_sponge_build) to $(cat latest_sponge_build)
+            mv -f latest_sponge_build last_sponge_build
           fi
       - name: Set up Docker Buildx
         if: steps.sponge-check.outputs.modified == 'true'
