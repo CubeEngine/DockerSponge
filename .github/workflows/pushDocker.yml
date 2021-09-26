@@ -22,7 +22,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: last_sponge_build
-          key: api-8-build
+          key: api-8-build-2
       - name: Fetch Last Sponge Build
         id: sponge-check
         run: |
