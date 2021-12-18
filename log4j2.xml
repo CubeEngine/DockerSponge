@@ -6,7 +6,7 @@
   </Properties>
   <Appenders>
     <Console name="SysOut" target="SYSTEM_OUT">
-     <PatternLayout pattern="%d{ISO8601} %level [%t] [%c{1.3}]: %msg%n"/>
+     <PatternLayout pattern="%d{ISO8601} %level [%t] [%c{1.3}]: %msg{nolookups}%n"/>
     </Console>
   </Appenders>
   <Loggers>
