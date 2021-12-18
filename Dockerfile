@@ -1,6 +1,6 @@
-ARG JAVA_VERSION=8
+ARG JAVA_BASE_IMAGE=eclipse-temurin:17-jdk-alpine
 
-FROM adoptopenjdk/openjdk${JAVA_VERSION}:alpine-jre
+FROM $JAVA_BASE_IMAGE
 
 ARG SPONGE_VERSION="1.16.5-8.0.0-*"
 # "rc" or "release"
