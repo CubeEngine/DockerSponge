@@ -1,5 +1,15 @@
 ARG JAVA_BASE_IMAGE=eclipse-temurin:17-jdk-alpine
 
+FROM alpine:3.15 AS mcrcon
+
+ARG MCRCON_VERSION="0.7.2"
+
+RUN apk add --update git gcc musl-dev make
+RUN cd /tmp \
+ && git clone -b "v${MCRCON_VERSION}" --depth=1 https://github.com/Tiiffi/mcrcon . \
+ && make \
+ && mv mcrcon /
+
 FROM $JAVA_BASE_IMAGE
 
 ARG SPONGE_VERSION="1.16.5-8.0.0-*"
@@ -24,14 +34,7 @@ RUN apk add --update --no-cache curl bash gettext
 
 RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
 
-ARG MCRCON_VERSION="0.7.1"
-RUN mkdir /tmp/mcrcon \
- && curl -s -L -o '/tmp/mcrcon/mcrcon.tar.gz' "https://github.com/Tiiffi/mcrcon/releases/download/v${MCRCON_VERSION}/mcrcon-${MCRCON_VERSION}-linux-x86-64.tar.gz" \
- && tar xf '/tmp/mcrcon/mcrcon.tar.gz' --strip-components=1 -C /tmp/mcrcon \
- && mv /tmp/mcrcon/mcrcon /opt/mcrcon \
- && chmod +x /opt/mcrcon \
- && rm -Rf /tmp/mcrcon
-
+COPY --from=mcrcon /mcrcon /opt/mcrcon
 COPY mcrcon.sh /usr/local/bin/mcrcon
 
 COPY log4j2.xml /
