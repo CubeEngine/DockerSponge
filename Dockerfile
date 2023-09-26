@@ -12,7 +12,7 @@ RUN cd /tmp \
 
 FROM $JAVA_BASE_IMAGE
 
-ARG SPONGE_VERSION="1.16.5-8.0.0-*"
+ARG SPONGE_VERSION="1.16.5-8.2.0"
 # "rc" or "release"
 ARG SPONGE_TYPE="rc"
 ENV MINECRAFT_DIR="/minecraft"
@@ -32,7 +32,7 @@ ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 # gettext: envsubst
 RUN apk add --update --no-cache curl bash gettext
 
-RUN curl -s -L -o "/sponge.jar" "https://repo-new.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
+RUN curl -s -L -o "/sponge.jar" "https://repo.spongepowered.org/service/rest/v1/search/assets/download?sort=version&repository=maven-releases&maven.groupId=org.spongepowered&maven.artifactId=spongevanilla&maven.extension=jar&maven.classifier=universal&maven.baseVersion=${SPONGE_VERSION}"
 
 COPY --from=mcrcon /mcrcon /opt/mcrcon
 COPY mcrcon.sh /usr/local/bin/mcrcon
