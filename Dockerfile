@@ -17,7 +17,7 @@ ARG SPONGE_VERSION="1.16.5-8.2.0"
 ARG SPONGE_TYPE="rc"
 ENV MINECRAFT_DIR="/minecraft"
 
-RUN adduser -D -h "${MINECRAFT_DIR}" "minecraft"
+RUN addgroup -g 1000 "minecraft" && adduser -u 1000 -D -g "minecraft" -h "${MINECRAFT_DIR}" "minecraft"
 
 ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 	MINECRAFT_MODS_DIR="${MINECRAFT_DIR}/mods" \
