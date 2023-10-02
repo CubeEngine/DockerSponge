@@ -19,8 +19,8 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Fetch Last Sponge Build
-        id: sponge-check
+      - name: Fetch Versions
+        id: fetch-versions
         run: |
           ./fetch-versions.sh
 
