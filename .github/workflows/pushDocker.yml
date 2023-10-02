@@ -4,10 +4,9 @@ name: Build Image
 
 # Controls when the action will run. 
 on: 
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 0 * * *'
-  # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
