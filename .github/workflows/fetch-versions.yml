@@ -22,5 +22,5 @@ jobs:
       - name: Fetch Versions
         id: fetch-versions
         run: |
-          ./fetch-versions.sh
+          bash ./fetch-versions.sh
 
