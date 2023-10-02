@@ -45,10 +45,10 @@ git config user.email 'no-reply@cubeengine.org'
 
 git add "$minecraft_versions_file" "$api_versions_file"
 
-
-
-if ! git commit -m 'My hands are typing words....'
+if git commit -m 'My hands are typing words....'
 then
+    git push
+else
     echo "No new versions!"
 fi
 
