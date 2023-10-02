@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 minecraft_versions=(
     1.20.2
