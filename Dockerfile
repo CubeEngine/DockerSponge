@@ -1,6 +1,6 @@
 ARG JAVA_BASE_IMAGE=eclipse-temurin:17-jdk-alpine
 
-FROM alpine:3.15 AS mcrcon
+FROM alpine:3.18 AS mcrcon
 
 ARG MCRCON_VERSION="0.7.2"
 
