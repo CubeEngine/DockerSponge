@@ -17,8 +17,6 @@ build_image() {
     podman build \
         -t "$image_name" \
         --layers \
-        --cache-from="$cache_repo" \
-        --cache-to="$cache_repo" \
         --timestamp 0 \
         .
     rm "$sponge_jar_file"
