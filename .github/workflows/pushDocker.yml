@@ -5,8 +5,8 @@ on:
     branches:
       - master
     paths:
-      - minecraft-versions.json
-      - api-versions.json
+      - latest-versions.json
+      - recommended-versions.json
       - Dockerfile
       - build-images.sh
   workflow_dispatch:

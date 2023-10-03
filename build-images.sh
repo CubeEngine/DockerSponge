@@ -21,7 +21,7 @@ build_image() {
         .
     rm "$sponge_jar_file"
 
-    local tags=("$kind-$version" "$kind-$asset")
+    local tags=("$kind-$version" "$asset")
     for t in "${tags[@]}"
     do
         local name="$repo_name:$t"
@@ -43,5 +43,5 @@ build_images() {
     done
 }
 
-build_images minecraft
-build_images api
+build_images latest
+build_images recommended
