@@ -28,7 +28,7 @@ One important mention is the `JAVA_VM_ARGS` environment variable. This helps you
 
 ### Server Properties
 
-You might have noticed that the root-volume doesn't contain the `server.properties` file. This file doesn't need to be persisted because it can be set up using environment variables. Below you'll find a list of the environment variable names. A description of them, supported values and default behaviours can be found on the [minecraft gamepedia site](http://minecraft.gamepedia.com/Server.properties).
+You might have noticed that the root-volume doesn't contain the `server.properties` file. This file doesn't need to be persisted because it can be set up using environment variables. Below you'll find a list of the environment variable names. A description of them, supported values and default behaviours can be found on the [minecraft-wiki](https://minecraft.wiki/w/Server.properties).
 
  - ALLOW_FLIGHT
  - ALLOW_NETHER
