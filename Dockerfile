@@ -1,4 +1,4 @@
-ARG JAVA_BASE_IMAGE=eclipse-temurin:17-jdk-alpine
+ARG JAVA_VERSION=17
 
 FROM alpine:3.18 AS mcrcon
 
@@ -10,11 +10,11 @@ RUN cd /tmp \
  && make \
  && mv mcrcon /
 
-FROM $JAVA_BASE_IMAGE
+FROM docker.io/library/eclipse-temurin:${JAVA_VERSION}-jdk-jammy
 
 ENV MINECRAFT_DIR="/minecraft"
 
-RUN addgroup -g 1000 "minecraft" && adduser -u 1000 -D -G "minecraft" -h "${MINECRAFT_DIR}" "minecraft"
+RUN addgroup --gid 1000 "minecraft" && adduser --uid 1000 --disabled-password --ingroup "minecraft" --home "${MINECRAFT_DIR}" "minecraft"
 
 ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 	MINECRAFT_MODS_DIR="${MINECRAFT_DIR}/mods" \
@@ -27,7 +27,17 @@ ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 # bash: easy scripting
 # curl: sponge download and nice to have
 # gettext: envsubst
-RUN apk add --update --no-cache curl bash gettext
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends --no-install-suggests curl bash gettext \
+ && apt-get clean
+
+ARG ASYNC_PROFILER_VERSION=2.9
+
+RUN curl -sLo /tmp/profiler.tar.gz "https://github.com/jvm-profiling-tools/async-profiler/releases/download/v${ASYNC_PROFILER_VERSION}/async-profiler-${ASYNC_PROFILER_VERSION}-linux-x64.tar.gz"  \
+ && tar -xf /tmp/profiler.tar.gz -C /opt \
+ && rm /tmp/profiler.tar.gz \
+ && mv /opt/async-profiler* /opt/async-profiler \
+ && ln -s /opt/async-profiler/profiler.sh /usr/local/bin/async-profiler
 
 COPY sponge.jar /sponge.jar
 
