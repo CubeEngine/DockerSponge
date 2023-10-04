@@ -43,5 +43,10 @@ build_images() {
     done
 }
 
-build_images latest
-build_images recommended
+if ./fetch-versions.sh
+then
+    build_images latest
+    build_images recommended
+else
+    echo "Nothing changed, nothing to build!"
+fi

@@ -35,12 +35,29 @@ fetch_versions "api" true "${api_versions[@]}" | transform_to_versions > "$recom
 git config user.name 'CubeEngine Sponge Updater'
 git config user.email 'no-reply@cubeengine.org'
 
-git add "$latest_versions_file" "$recommended_versions_file"
+commit() {
+    local file="${1?no file}"
+    local name="${2?no name}"
+    git add "$file"
+    git commit -m "$name updated"
+}
 
-if git commit -m 'My hands are typing words....'
+updated=false
+if commit "$latest_versions_file" "Latest versions"
+then
+    updated=true
+fi
+if commit "$recommended_versions_file" "Recommended versions"
+then
+    updated=true
+fi
+
+if [ "$updated" = "true" ]
 then
     git push
+    exit 0
 else
     echo "No new versions!"
+    exit 1
 fi
 
