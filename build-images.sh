@@ -43,7 +43,7 @@ build_images() {
     done
 }
 
-if ./fetch-versions.sh
+if ./fetch-versions.sh || [ "${EVENT_NAME:-}" != "schedule" ]
 then
     build_images latest
     build_images recommended
