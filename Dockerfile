@@ -39,8 +39,6 @@ RUN curl -sLo /tmp/profiler.tar.gz "https://github.com/jvm-profiling-tools/async
  && mv /opt/async-profiler* /opt/async-profiler \
  && ln -s /opt/async-profiler/profiler.sh /usr/local/bin/async-profiler
 
-COPY sponge.jar /sponge.jar
-
 COPY --from=mcrcon /mcrcon /opt/mcrcon
 COPY mcrcon.sh /usr/local/bin/mcrcon
 
@@ -120,4 +118,6 @@ ENV	ALLOW_FLIGHT=false \
     WHITE_LIST=false
 
 STOPSIGNAL INT
+
+COPY sponge.jar /sponge.jar
 
