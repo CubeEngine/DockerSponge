@@ -1,10 +1,11 @@
 ARG JAVA_VERSION=17
 
-FROM alpine:3.18 AS mcrcon
+FROM docker.io/library/ubuntu:jammy AS mcrcon
 
 ARG MCRCON_VERSION="0.7.2"
 
-RUN apk add --update git gcc musl-dev make
+RUN apt-get update \
+ && apt-get install -y build-essential git
 RUN cd /tmp \
  && git clone -b "v${MCRCON_VERSION}" --depth=1 https://github.com/Tiiffi/mcrcon . \
  && make \
@@ -39,7 +40,7 @@ RUN curl -sLo /tmp/profiler.tar.gz "https://github.com/jvm-profiling-tools/async
  && mv /opt/async-profiler* /opt/async-profiler \
  && ln -s /opt/async-profiler/profiler.sh /usr/local/bin/async-profiler
 
-COPY --from=mcrcon /mcrcon /opt/mcrcon
+COPY --from=mcrcon --chmod=755 /mcrcon /opt/mcrcon
 COPY mcrcon.sh /usr/local/bin/mcrcon
 
 COPY log4j2.xml /
