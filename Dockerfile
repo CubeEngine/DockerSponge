@@ -29,7 +29,7 @@ ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 # curl: sponge download and nice to have
 # gettext: envsubst
 RUN apt-get update \
- && apt-get install -y --no-install-recommends --no-install-suggests curl bash gettext \
+ && apt-get install -y --no-install-recommends --no-install-suggests curl bash gettext jq \
  && apt-get clean
 
 ARG ASYNC_PROFILER_VERSION=2.9
