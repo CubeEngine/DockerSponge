@@ -3,6 +3,7 @@
 set -euo pipefail
 
 api_versions=(
+    12
     11
     10
     9
