@@ -32,13 +32,13 @@ RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests curl bash gettext jq \
  && apt-get clean
 
-ARG ASYNC_PROFILER_VERSION=2.9
+ARG ASYNC_PROFILER_VERSION=3.0
 
 RUN curl -sLo /tmp/profiler.tar.gz "https://github.com/jvm-profiling-tools/async-profiler/releases/download/v${ASYNC_PROFILER_VERSION}/async-profiler-${ASYNC_PROFILER_VERSION}-linux-x64.tar.gz"  \
  && tar -xf /tmp/profiler.tar.gz -C /opt \
  && rm /tmp/profiler.tar.gz \
  && mv /opt/async-profiler* /opt/async-profiler \
- && ln -s /opt/async-profiler/profiler.sh /usr/local/bin/async-profiler
+ && ln -s /opt/async-profiler/asprof /usr/local/bin/async-profiler
 
 COPY --from=mcrcon --chmod=755 /mcrcon /opt/mcrcon
 COPY mcrcon.sh /usr/local/bin/mcrcon
