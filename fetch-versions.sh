@@ -2,22 +2,27 @@
 
 set -euo pipefail
 
-api_versions=(
-    12
-    11
-    10
-    9
-    8
+declare -A api_mc_versions=(
+    [12]="1.21.1"
+    [11]="1.20.6"
+    [10]="1.19.4"
+    [9]="1.18.2"
+    [8]="1.16.5"
 )
 
 fetch_versions() {
     local kind="${1?no kind!}"
     local recommended="${2?no recommended flag!}"
+
     shift 2
-    for v in "$@"
+    for api_version in "$@"
     do
-        curl -s "https://dl-api.spongepowered.org/v2/groups/org.spongepowered/artifacts/spongevanilla/versions?tags=${kind}:${v}&recommended=${recommended}&offset=0&limit=1" \
-            | jq --arg version "$v" -Mc '{key: $version, value: (.artifacts // {}) | to_entries | first | .key}'
+        local mc_versions="${api_mc_versions[$api_version]}"
+        for mc_version in $mc_versions
+        do
+          curl -s "https://dl-api.spongepowered.org/v2/groups/org.spongepowered/artifacts/spongevanilla/versions?tags=${kind}:${api_version},minecraft:${mc_version}&recommended=${recommended}&offset=0&limit=1" \
+              | jq --arg version "$api_version" -Mc '{key: $version, value: (.artifacts // {}) | to_entries | first | .key}'
+        done
     done
 }
 
@@ -30,8 +35,8 @@ versions_file="$(mktemp)"
 latest_versions_file="latest-versions.json"
 recommended_versions_file="recommended-versions.json"
 
-fetch_versions "api" false "${api_versions[@]}" | transform_to_versions > "$latest_versions_file"
-fetch_versions "api" true "${api_versions[@]}" | transform_to_versions > "$recommended_versions_file"
+fetch_versions "api" false "${!api_mc_versions[@]}" | transform_to_versions > "$latest_versions_file"
+fetch_versions "api" true "${!api_mc_versions[@]}" | transform_to_versions > "$recommended_versions_file"
 
 git config user.name 'CubeEngine Sponge Updater'
 git config user.email 'no-reply@cubeengine.org'
