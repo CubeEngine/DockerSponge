@@ -1,6 +1,6 @@
 ARG JAVA_VERSION=21
 
-FROM docker.io/library/ubuntu:jammy AS mcrcon
+FROM docker.io/library/ubuntu:noble AS mcrcon
 
 ARG MCRCON_VERSION="0.7.2"
 
