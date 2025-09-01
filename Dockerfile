@@ -19,7 +19,7 @@ RUN addgroup --gid 1000 "minecraft" && adduser --uid 1000 --disabled-password --
 
 ENV SPONGE_JAR="${MINECRAFT_DIR}/sponge.jar" \
 	MINECRAFT_MODS_DIR="${MINECRAFT_DIR}/mods" \
-	MINECRAFT_PLUGINS_DIR="${MINECRAFT_DIR}/plugins" \
+	MINECRAFT_PLUGINS_DIR="${MINECRAFT_DIR}/mods/plugins" \
 	MINECRAFT_CONFIG_DIR="${MINECRAFT_DIR}/config" \
 	MINECRAFT_WORLD_DIR="${MINECRAFT_DIR}/world" \
 	MINECRAFT_LOGS_DIR="${MINECRAFT_DIR}/logs" \
