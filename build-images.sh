@@ -16,6 +16,7 @@ build_image() {
     local image_name="${repo_name}:latest"
     podman build \
         -t "$image_name" \
+        --build-arg SPONGE_API_VERSION="$version"
         --layers \
         --timestamp 0 \
         .

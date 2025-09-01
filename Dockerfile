@@ -13,6 +13,10 @@ RUN cd /tmp \
 
 FROM docker.io/library/eclipse-temurin:${JAVA_VERSION}-jdk-jammy
 
+ARG SPONGE_API_VERSION="unknown"
+RUN echo "$SPONGE_API_VERSION" > /sponge-api-version.txt
+ENV SPONGE_API_VERSION="$SPONGE_API_VERSION"
+
 ENV MINECRAFT_DIR="/minecraft"
 
 RUN addgroup --gid 1000 "minecraft" && adduser --uid 1000 --disabled-password --ingroup "minecraft" --home "${MINECRAFT_DIR}" "minecraft"
